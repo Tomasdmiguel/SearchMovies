@@ -27,8 +27,8 @@ const Carousel: React.FC = () => {
   };
 
   return (
-    <div className="relative h-60 w-full">
-      <div className="absolute inset-0">
+    <div className="relative h-96 w-full max-w-6xl mx-auto my-8">
+      <div className="absolute inset-0 rounded-lg overflow-hidden">
         <Image
           src={imagenes[currentImageIndex]}
           alt={`Carousel image ${currentImageIndex + 1}`}
@@ -39,18 +39,18 @@ const Carousel: React.FC = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-        <h1 className="text-5xl text-white mb-8">Bienvenido</h1>
-        <div className="flex items-center bg-white rounded-full overflow-hidden shadow-lg">
+        <h1 className="text-6xl text-white mb-8 font-bold">Bienvenido</h1>
+        <div className="flex items-center bg-white rounded-full overflow-hidden shadow-lg w-3/4 max-w-xl">
           <input
             type="text"
             placeholder="Busca tu peli"
-            className="py-2 px-4 w-full text-black focus:outline-none"
+            className="py-3 px-6 w-full text-black focus:outline-none text-lg"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button
             onClick={handleSearch}
-            className="bg-green-500 text-white py-2 px-6 hover:bg-green-600 transition-colors">
+            className="bg-green-500 text-white py-3 px-8 hover:bg-green-600 transition-colors text-lg font-semibold">
             Buscar
           </button>
         </div>

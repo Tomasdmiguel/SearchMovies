@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { SearchMovie } from "@/service/GetMovies";
 import Image from "next/image";
 
 const imagenes = [
@@ -13,6 +16,8 @@ const imagenes = [
 const Carousel: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,8 +27,31 @@ const Carousel: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSearch = () => {
-    console.log("Searching for:", searchQuery);
+  const handleSearch = async () => {
+    setIsLoading(true);
+    try {
+      const search = await SearchMovie(searchQuery);
+      if (search.results && search.results.length > 0) {
+        const encodedResults = encodeURIComponent(
+          JSON.stringify(search.results)
+        );
+        router.push(`/search?results=${encodedResults}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No se encontraron resultados con esa búsqueda!",
+        });
+      }
+    } catch (error: any) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Hubo un problema con la búsqueda. Inténtalo de nuevo más tarde.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,8 +78,9 @@ const Carousel: React.FC = () => {
           />
           <button
             onClick={handleSearch}
-            className="bg-green-500 text-white py-3 px-8 hover:bg-green-600 transition-colors text-lg font-semibold">
-            Buscar
+            className="bg-green-500 text-white py-3 px-8 hover:bg-green-600 transition-colors text-lg font-semibold"
+            disabled={isLoading}>
+            {isLoading ? "Buscando..." : "Buscar"}
           </button>
         </div>
       </div>

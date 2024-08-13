@@ -34,4 +34,24 @@ export const GetDetail = async (id: number) => {
   }
 };
 
+export const SearchMovie = async (query: string) => {
+  try {
+    const response = await fetch(
+      `${URL_POPULAR}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
+        query
+      )}`
+    );
+
+    if (!response.ok) {
+      throw new Error("No se encontraron resultados");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+};
+
 export default GetPopular;

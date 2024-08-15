@@ -2,13 +2,14 @@
 import { IMoviesResponsePopular } from "@/interface/Imovies";
 import GetPopular from "@/service/GetMovies";
 import { useEffect, useState } from "react";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Link from "next/link";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const MPoular = () => {
   const [popularmovies, setPopularmovies] =
     useState<IMoviesResponsePopular | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const itemsToShow = 4;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -23,59 +24,82 @@ const MPoular = () => {
     fetchMovies();
   }, []);
 
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? popularmovies!.results.length - 1 : prevIndex - 1
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex(
+        (prevIndex) => (prevIndex + 1) % (popularmovies?.results.length ?? 1)
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [popularmovies]);
+
+  const handlePrev = () => {
+    setCurrentIndex(
+      (prevIndex) =>
+        (prevIndex - 1 + (popularmovies?.results.length ?? 1)) %
+        (popularmovies?.results.length ?? 1)
     );
   };
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === popularmovies!.results.length - 1 ? 0 : prevIndex + 1
+    setCurrentIndex(
+      (prevIndex) => (prevIndex + 1) % (popularmovies?.results.length ?? 1)
     );
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Películas Populares</h1>
+    <div className="relative p-4">
       {popularmovies ? (
         <div className="relative">
           <button
-            onClick={handlePrevious}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700">
-            <FaChevronLeft />
+            onClick={handlePrev}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-3 rounded-full z-10">
+            <AiOutlineLeft />
           </button>
-          <div className="flex overflow-x-auto space-x-4 py-2">
-            {popularmovies.results.map((moviePopular, index) => (
-              <Link href={`/detail/${moviePopular.id}`}>
-              <div
-                key={moviePopular.id}
-                className={`flex-none w-64 bg-white shadow-md rounded-lg overflow-hidden ${
-                  index === currentIndex ? "scale-105" : ""
-                }`}>
-    
-                <img
-                  className="w-full h-40 object-cover"
-                  src={`https://image.tmdb.org/t/p/w500${moviePopular.poster_path}`}
-                  alt={moviePopular.title}
-                />
-                <div className="p-4">
-                  <h2 className="text-lg font-semibold mb-2">
-                    {moviePopular.title}
-                  </h2>
-                  <p className="text-sm text-gray-700 line-clamp-3">
-                    {moviePopular.overview}
-                  </p>
-                </div>
-              </div>
-              </Link>
-            ))}
-          </div>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700">
-            <FaChevronRight />
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-3 rounded-full z-10">
+            <AiOutlineRight />
           </button>
+
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500"
+              style={{
+                transform: `translateX(-${
+                  currentIndex * (100 / itemsToShow)
+                }%)`,
+              }}>
+              {popularmovies.results.map((moviePopular) => (
+                <Link
+                  key={moviePopular.id}
+                  href={`/detail/${moviePopular.id}`}
+                  className="flex-shrink-0 w-full sm:w-1/4 p-2 relative">
+                  <div className="bg-red-800 shadow-md rounded-lg overflow-hidden flex flex-col h-full">
+                    <div className="relative">
+                      <img
+                        className="w-full h-64 object-cover"
+                        src={`https://image.tmdb.org/t/p/w500${moviePopular.poster_path}`}
+                        alt={moviePopular.title}
+                      />
+                      <div className="absolute top-2 right-2 bg-red-600 text-white rounded-full px-3 py-1 text-xs font-bold">
+                        {moviePopular.vote_average.toFixed(1)}
+                      </div>
+                    </div>
+                    <div className="p-4 flex flex-col flex-1 bg-gradient-to-t from-red-800 via-red-700 to-transparent">
+                      <h2 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                        {moviePopular.title}
+                      </h2>
+                      <p className="text-sm text-white flex-1 line-clamp-4">
+                        {moviePopular.overview}
+                      </p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       ) : (
         <p className="text-center text-gray-500">Cargando...</p>

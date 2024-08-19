@@ -29,64 +29,71 @@ const Detail = ({ params }: DetailProps) => {
   }, [idMovie]);
 
   return (
-    <div>
+    <div className="p-6 bg-gray-900 text-white rounded-lg shadow-lg max-w-4xl mx-auto mt-4">
       {movie ? (
         <div>
-          <h1>{movie.title}</h1>
-          <p>{movie.overview}</p>
+          <h1 className="text-4xl font-bold mb-4 text-yellow-400">{movie.title}</h1>
+          <p className="text-lg mb-4">{movie.overview}</p>
 
-          <p>Fecha de estreno: {movie.release_date}</p>
-          <p>Duración: {movie.runtime} minutos</p>
-          <p>Géneros: {movie.genres.map((genre) => genre.name).join(", ")}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
-          />
-          <p>
-            Idiomas:{" "}
-            {movie.spoken_languages.map((lang) => lang.name).join(", ")}
-          </p>
+          <div className="mb-4">
+            <p className="text-sm">
+              <span className="font-semibold">Fecha de estreno:</span> {movie.release_date}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Duración:</span> {movie.runtime} minutos
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Géneros:</span> {movie.genres.map((genre) => genre.name).join(", ")}
+            </p>
+          </div>
 
-          {/* Presupuesto */}
-          <p>Presupuesto: ${movie.budget.toLocaleString()}</p>
+          <div className="flex justify-center mb-6">
+            <img
+              className="w-full max-w-md h-auto object-cover rounded-lg shadow-lg"
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
 
-          {/* Ingresos */}
-          <p>Ingresos: ${movie.revenue.toLocaleString()}</p>
-
-          {/* Países de Producción */}
-          <p>
-            Países de Producción:{" "}
-            {movie.production_countries
-              .map((country) => country.name)
-              .join(", ")}
-          </p>
-
-          {/* Compañías de Producción */}
-          <p>
-            Compañías de Producción:{" "}
-            {movie.production_companies
-              .map((company) => company.name)
-              .join(", ")}
-          </p>
-
-          {/* Tagline */}
-          <p>Tagline: {movie.tagline}</p>
-
-          {/* Estado */}
-          <p>Estado: {movie.status}</p>
-
-          {/* Popularidad */}
-          <p>Popularidad: {movie.popularity}</p>
-
-          {/* Puntuación Media */}
-          <p>Puntuación: {movie.vote_average}</p>
-
-          {/* Conteo de Votos */}
-          <p>Votos: {movie.vote_count}</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <p className="text-sm">
+              <span className="font-semibold">Idiomas:</span>{" "}
+              {movie.spoken_languages.map((lang) => lang.name).join(", ")}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Presupuesto:</span> ${movie.budget.toLocaleString()}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Ingresos:</span> ${movie.revenue.toLocaleString()}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Países de Producción:</span>{" "}
+              {movie.production_countries.map((country) => country.name).join(", ")}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Compañías de Producción:</span>{" "}
+              {movie.production_companies.map((company) => company.name).join(", ")}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Tagline:</span> {movie.tagline}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Estado:</span> {movie.status}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Popularidad:</span> {movie.popularity}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Puntuación:</span> {movie.vote_average}
+            </p>
+            <p className="text-sm">
+              <span className="font-semibold">Votos:</span> {movie.vote_count}
+            </p>
+          </div>
         </div>
       ) : (
-        <div>
-          <p>Vuelva más tarde</p>
+        <div className="text-center">
+          <p className="text-gray-500">Vuelva más tarde</p>
         </div>
       )}
     </div>

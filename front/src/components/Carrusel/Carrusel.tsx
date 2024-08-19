@@ -54,21 +54,24 @@ const Carousel: React.FC = () => {
     }
   };
 
-  return (
-    <div className="relative h-96 w-full max-w-6xl mx-auto my-8">
-      <div className="absolute inset-0 rounded-lg overflow-hidden">
+    return (
+    <div className="relative h-96 w-full max-w-6xl mx-auto my-8 rounded-lg overflow-hidden shadow-lg">
+      <div className="absolute inset-0">
         <Image
           src={imagenes[currentImageIndex]}
           alt={`Carousel image ${currentImageIndex + 1}`}
           layout="fill"
           objectFit="cover"
           quality={100}
+          className="rounded-lg"
         />
-        <div className="absolute inset-0 bg-black opacity-50"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/75"></div>
       </div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center">
-        <h1 className="text-6xl text-white mb-8 font-bold">Bienvenido</h1>
-        <div className="flex items-center bg-white rounded-full overflow-hidden shadow-lg w-3/4 max-w-xl">
+        <h1 className="text-6xl text-white mb-8 font-extrabold drop-shadow-lg">
+          Bienvenido
+        </h1>
+        <div className="flex items-center bg-white rounded-full overflow-hidden shadow-2xl w-3/4 max-w-xl">
           <input
             type="text"
             placeholder="Busca tu peli"

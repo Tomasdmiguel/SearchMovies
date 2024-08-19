@@ -1,8 +1,10 @@
+import Link from "next/link";
 const Nav = () => {
   const text = 'Whats Movies';
 
   return (
-    <nav className="bg-gray-800 p-4">
+    <nav className="bg-slate-300 p-4">
+      <Link href={"/"}>
       <div className="container mx-auto">
         {text.split('').map((char, index) => (
           <span
@@ -16,6 +18,7 @@ const Nav = () => {
           </span>
         ))}
       </div>
+      </Link>
     </nav>
   );
 };

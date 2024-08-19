@@ -71,24 +71,4 @@ export const GetEstreno = async () => {
   }
 };
 
-
-export const GeTrailer = async () => {
-try {
-  const response = await fetch(
-    `${URL_POPULAR}/movie/upcoming?api_key=${API_KEY}&language=es-ES`
-  );
-  if (!response.ok) {
-    throw new Error("Error a obtener los trhilers ");
-
-  } else {
-    const data = await response.json();
-    return data.results;
-  }
-} catch (error:any) {
-  throw new Error(error.message)
-}
-
- }
-
-
 export default GetPopular;

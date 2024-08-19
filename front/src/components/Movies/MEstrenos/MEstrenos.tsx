@@ -55,23 +55,26 @@ const MEstrenos = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="relative p-4">
+    <div className="relative p-6">
+      <h1 className="text-3xl font-bold text-white mb-6 text-center">
+        Estrenos
+      </h1>
       {data && data.results ? (
         <div className="relative">
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-3 rounded-full z-10">
-            <AiOutlineLeft />
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-4 rounded-full z-10 hover:bg-red-500 transition duration-300">
+            <AiOutlineLeft size={24} />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-3 rounded-full z-10">
-            <AiOutlineRight />
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-red-600 text-white p-4 rounded-full z-10 hover:bg-red-500 transition duration-300">
+            <AiOutlineRight size={24} />
           </button>
 
           <div className="overflow-hidden">
             <div
-              className="flex transition-transform duration-500"
+              className="flex transition-transform duration-700 ease-in-out"
               style={{
                 transform: `translateX(-${
                   currentIndex * (100 / itemsToShow)
@@ -82,26 +85,26 @@ const MEstrenos = () => {
                   key={movie.id}
                   href={`/detail/${movie.id}`}
                   className="flex-shrink-0 w-full sm:w-1/4 p-2 relative">
-                  <div className="bg-red-800 shadow-md rounded-lg overflow-hidden flex flex-col h-full">
-                    <div className="relative">
+                  <div className="bg-red-800 shadow-lg rounded-xl overflow-hidden flex flex-col h-full">
+                    <div className="relative overflow-hidden rounded-t-lg">
                       <img
-                        className="w-full h-64 object-cover"
+                        className="w-full h-64 object-cover transform transition duration-500 hover:scale-105"
                         src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                         alt={movie.title}
                       />
-                      <div className="absolute top-2 right-2 bg-red-600 text-white rounded-full px-3 py-1 text-xs font-bold">
+                      <div className="absolute top-2 right-2 bg-red-600 text-white rounded-full px-3 py-1 text-xs font-bold shadow-lg">
                         {movie.vote_average.toFixed(1)}
                       </div>
                     </div>
                     <div className="p-4 flex flex-col flex-1 bg-gradient-to-t from-red-800 via-red-700 to-transparent">
-                      <h2 className="text-lg font-semibold text-white mb-2 line-clamp-2">
+                      <h2 className="text-lg font-semibold text-white mb-2 line-clamp-2 leading-tight">
                         {movie.title}
                       </h2>
-                      <p className="text-sm text-white flex-1 line-clamp-4">
+                      <p className="text-sm text-gray-200 flex-1 line-clamp-4">
                         {movie.overview}
                       </p>
                       <div className="mt-2">
-                        <p className="text-xs font-semibold text-yellow-300 bg-red-600 rounded-full py-1 px-3 inline-block">
+                        <p className="text-xs font-semibold text-yellow-300 bg-red-700 rounded-full py-1 px-3 inline-block shadow-md">
                           {movie.release_date}
                         </p>
                       </div>
